@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
-
-import { sequelize } from '../instances/pg';
+import { Op } from 'sequelize'
 
 import { Product } from "../models/Product";
+import { User } from '../models/User';
 
 export const home = async(req: Request, res: Response) => {
-    try {
-        await sequelize.authenticate();
-        console.log("Conexão estabelecida com sucesso");
-    } catch(error) {
-        console.log("Deu problema:", error);
-    }
+    let users = await User.findAll({
+       where: {
+            age: [55, 30, 90]
+       }
+    });
 
 
     let age: number = 30;
@@ -29,6 +28,7 @@ export const home = async(req: Request, res: Response) => {
         maisVelho,
         products: list,
         expensive: expensiveList,
-        frasesDoDia: []
+        frasesDoDia: [],
+        users
     });
 };
